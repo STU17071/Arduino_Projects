@@ -65,69 +65,54 @@ void setup ()
 
 void loop ()
 {
-  //DateTime now = rtc.now();
-  //  switch(now.dayOfTheWeek())
-  //  {
-  //    case 0:
-  //    digitalWrite(air1, Sunday(now));
-  //    digitalWrite(air2, Sunday(now));
-  //    break;
-  //    case 1:
-  //    digitalWrite(air1, Monday(now));
-  //    digitalWrite(air2, Monday(now));
-  //    break;
-  //    case 2:
-  //    digitalWrite(air1, Tuesday(now));
-  //     digitalWrite(air2, Tuesday(now));
-  //    break;
-  //    case 3:
-  //    digitalWrite(air1, Wednesday(now));
-  //    digitalWrite(air2, Wednesday(now));
-  //    break;
-  //    case 4:
-  //    digitalWrite(air1, Thursday(now));
-  //    digitalWrite(air2, Thursday(now));
-  //    break;
-  //    case 5:
-  //    digitalWrite(air1, Friday(now));
-  //    digitalWrite(air2, Friday(now));
-  //    break;
-  //    case 6:
-  //    digitalWrite(air1, Saturday(now));
-  //    digitalWrite(air2, Saturday(now));
-  //    break;
-  //  }
- runningVent();
+  //Wochentage();
+  runningVent();
 }
 
 
 
-//void Time()
-//{
-//  DateTime now = rtc.now();
-//
-//  Serial.println("Current Date & Time: ");
-//  Serial.print(now.year(), DEC);
-//  Serial.print('/');
-//  Serial.print(now.month(), DEC);
-//  Serial.print('/');
-//  Serial.print(now.day(), DEC);
-//  Serial.print(" (");
-//  Serial.print(now.dayOfTheWeek());
-//  Serial.print(") ");
-//  Serial.print(now.hour(), DEC);
-//  Serial.print(':');
-//  Serial.print(now.minute(), DEC);
-//  Serial.print(':');
-//  Serial.print(now.second(), DEC);
-//  Serial.println();
-//
-//  Serial.println();
-//  delay(10000);
-//}
+
 
 
 /*Methods for the Ventilators*/
+
+void Wochentage()
+{
+  DateTime now = rtc.now();
+  switch (now.dayOfTheWeek())
+  {
+    case 0:
+      digitalWrite(air1, Sunday(now));
+      digitalWrite(air2, Sunday(now));
+      break;
+    case 1:
+      digitalWrite(air1, Monday(now));
+      digitalWrite(air2, Monday(now));
+      break;
+    case 2:
+      digitalWrite(air1, Tuesday(now));
+      digitalWrite(air2, Tuesday(now));
+      break;
+    case 3:
+      digitalWrite(air1, Wednesday(now));
+      digitalWrite(air2, Wednesday(now));
+      break;
+    case 4:
+      digitalWrite(air1, Thursday(now));
+      digitalWrite(air2, Thursday(now));
+      break;
+    case 5:
+      digitalWrite(air1, Friday(now));
+      digitalWrite(air2, Friday(now));
+      break;
+    case 6:
+      digitalWrite(air1, Saturday(now));
+      digitalWrite(air2, Saturday(now));
+      break;
+  }
+}
+
+
 
 boolean Sunday(DateTime now)
 {
