@@ -48,7 +48,8 @@ int samend = 22;
 void setup ()
 {
   Serial.begin(9600);
-
+  pinMode(air1, OUTPUT);
+  pinMode(air2, OUTPUT);
   delay(3000); // wait for console opening
 
   if (! rtc.begin()) {
@@ -199,13 +200,14 @@ void runningVent()
   DateTime now = rtc.now();
   int uhrzeit = now.hour();
   int ende = now.hour() + dauer;
-
+  Serial.println(now);
   Serial.println((String)uhrzeit + " " + (String)ende);
 
   while (now.hour() >= uhrzeit && now.hour() <= ende)
   {
     digitalWrite(air1, HIGH);
     digitalWrite(air2, HIGH);
+    //Serial.println("läuft");
   }
   digitalWrite(air1, LOW);
   digitalWrite(air2, LOW);
