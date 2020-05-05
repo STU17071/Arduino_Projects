@@ -9,8 +9,8 @@ RTC_DS3231 rtc;
 /*char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};*/
 
 /*running Vent Parameters*/
-const unsigned long stunde = 216000;
-const unsigned long seconds = 1000;
+const unsigned long stunde = 3600; //min
+const unsigned long seconds = 1000; // 1min = 1000 millisekunden
 int dauer = 2;
 int pause = 1;
 
@@ -220,8 +220,10 @@ void runningVent()
   while (now.hour() >= uhrzeit && now.hour() <= ende)
   {
     digitalWrite(air1, HIGH);
+    digitalWrite(air2, HIGH);
   }
   digitalWrite(air1, LOW);
+  digitalWrite(air2, LOW);
   //Serial.println((String)uhrzeit + " " + (String)ende);
   uhrzeit = 0;
   ende = 0;
