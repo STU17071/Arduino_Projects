@@ -5,7 +5,7 @@
 
 
 /*Declare Variables*/
-//RTC_DS3231 rtc;
+RTC_DS3231 rtc;
 /*char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};*/
 
 /*running Vent Parameters*/
@@ -13,7 +13,10 @@ const unsigned long stunde = 3600; //min
 const unsigned long seconds = 1000; // 1min = 1000 millisekunden
 int dauer = 2;
 int pause = 1;
-
+int beginn = 0;
+int ende = 0;
+int nextday = 0;
+DateTime current = new DateTime();
 /*Wochentage*/
 
 
@@ -52,27 +55,78 @@ void setup ()
   pinMode(air2, OUTPUT);
   delay(3000); // wait for console opening
 
-//  if (! rtc.begin()) {
-//    Serial.println("Couldn't find RTC");
-//    while (1);
-//  }
+  //  if (! rtc.begin()) {
+  //    Serial.println("Couldn't find RTC");
+  //    while (1);
+  //  }
 
   /*SET of the Date when File was last compiled*/
   //rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+
+
+  current = rtc.now();
+//  beginn = current.hour();
+//  ende = beginn + dauer;
+  nextday = current.day() + 1;
 }
 
-
+void TimeStringOutput(DateTime Uhrzeit)
+{
+  String Timenow = String(String(Uhrzeit.hour(), DEC) + ':' + String(Uhrzeit.minute(), DEC) + ':' + String(Uhrzeit.second(), DEC));
+  Serial.println(Timenow);
+}
 
 
 void loop ()
 {
-  //Wochentage();
-  runningVent();
+  /*Runs for X Hours and make a break for Y Hours*/
+  current = rtc.now();
+  TimeStringOutput(current);
+  Serial.println((String)nextday);
+  if (beginn >= 22)
+  {
+    //switchen
+    ende = ende - 24;
+    Serial.println(ende, DEC);
+    while (current.day() < nextday && current.hour() != 0)
+    {
+      digitalWrite(air1, HIGH);
+      digitalWrite(air2, HIGH);
+      Serial.println("läuft ab 22 Uhr");
+      //Serial.println((String)beginn + " - " + (String)ende);
+    }
+    digitalWrite(air1, LOW);
+    digitalWrite(air2, LOW);
+    Serial.println("Ventilatoren aus");
+    delay(100000);
+    Serial.println("hello");
+    beginn = current.hour();
+    ende = beginn + dauer;
+    nextday = current.day() + 1;
+    //delay(pause * stunde * seconds);
+  }
+  else
+  {
+    Serial.println("Gilt nur für den heutigen Tag");
+    //  //Gilt nur für den heutigen Tag
+    while (current.hour() < ende)
+    {
+      digitalWrite(air1, HIGH);
+      digitalWrite(air2, HIGH);
+      Serial.println("läuft tagsüber bis 22 - " + (String)ende);
+      delay(100000);
+      //Serial.println((String)beginn + " - " + (String)ende);
+    }
+    digitalWrite(air1, LOW);
+    digitalWrite(air2, LOW);
+    Serial.println("Ventilatoren sind heute " + (String)beginn + "aus");
+    delay(100000);
+    //delay(pause * stunde * seconds);
+    beginn = current.hour();
+    ende = beginn + dauer;
+    nextday = current.day() + 1;
+  }
 }
-
-
-
-
 
 
 /*Methods for the Ventilators*/
@@ -193,31 +247,3 @@ void loop ()
 //  Serial.println("run");
 //  return true;
 //}
-
-/*Runs for X Hours and make a break for Y Hours*/
-void runningVent()
-{
-  //DateTime now = rtc.now();
-//  int uhrzeit = now.hour();
-  int beginn = 17;
-  int zeit = 17;
-  int ende2 = beginn + dauer;
-  //int ende = now.hour() + dauer;
-  //Serial.println((String)uhrzeit + " " + (String)ende);
-
-  while (zeit >= beginn && zeit < ende2)
-  {
-   // digitalWrite(air1, HIGH);
-    //digitalWrite(air2, HIGH);
-    Serial.println("läuft");
-    Serial.println((String)beginn + " - " + (String)ende2);
-  }
-  digitalWrite(air1, LOW);
-  digitalWrite(air2, LOW);
-  Serial.println("läuft nicht");
-  //Serial.println((String)uhrzeit + " " + (String)ende);
-  //uhrzeit = 0;
-  ende2 = 0;
-  delay(1000);
-  //delay(pause * stunde * seconds);
-}
