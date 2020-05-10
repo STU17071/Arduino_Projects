@@ -9,8 +9,8 @@ RTC_DS3231 rtc;
 /*char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};*/
 
 /*running Vent Parameters*/
-const unsigned long stunde = 3600000; // in seconds
-const unsigned long minutes = 3600; // in seconds
+const unsigned long stunde = 3600000; // in milliseconds
+const unsigned long minutes = 3600; // in miliseconds
 int dauer = 2;
 int pause = 1;
 int ende = 0;
