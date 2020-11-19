@@ -47,7 +47,7 @@ void TimeStringOutput(DateTime Uhrzeit)
 
 void loop ()
 {
-  ende = rtc.now().hour() + pause;
+  //ende = rtc.now().hour() + dauer;
   /*Runs for X Hours and make a break for Y Hours*/
 
   /*Wenn derzeitige Uhrzeit größer oder gleich 22 Uhr ist*/
@@ -76,19 +76,23 @@ void loop ()
   }
   else
   {
-    Serial.println("Gilt nur für den heutigen Tag" + rtc.now().day());
+    Serial.println("für den heutigen Tag" + rtc.now().day());
     //  //Gilt nur für den heutigen Tag
     while (rtc.now().hour() < ende)
     {
       //TimeStringOutput(rtc.now());
       digitalWrite(air1, HIGH);
       digitalWrite(air2, HIGH);
+      Serial.println(ende, DEC);
+      TimeStringOutput(rtc.now());
     }
     digitalWrite(air1, LOW);
     digitalWrite(air2, LOW);
-    // Serial.println("Ventilatoren sind heute " + (String)beginn + "aus");
     Serial.println("läuft nicht");
-    delay(pause * stunde);
+    Serial.println((String) ende);
+    delay(10000);
+    Serial.println("ERROR");
+    ende = 0;
     ende = rtc.now().hour() + dauer;
     nextday = rtc.now().day() + 1;
   }
