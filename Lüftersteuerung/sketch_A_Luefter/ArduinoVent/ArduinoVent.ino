@@ -9,7 +9,7 @@ RTC_DS3231 rtc;
 const int timer = 3600000; //1 Hour in millseconds
 
 void setup() {
-  //Set Time and Date which FIle was compiled -> Loaded on arduino
+  //Set Time and Date when File was compiled -> Loaded on arduino
   rtc.adjust(DateTime(F(__DATE__),F(__TIME__)));
   // put your setup code here, to run once:
   Serial.begin(9600);
