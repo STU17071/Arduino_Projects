@@ -10,7 +10,7 @@ const int timer = 3600000; //1 Hour in millseconds
 
 void setup() {
   //Set Time and Date when File was compiled -> Loaded on arduino
-  rtc.adjust(DateTime(F(__DATE__),F(__TIME__)));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   // put your setup code here, to run once:
   Serial.begin(9600);
   pinMode(air1, OUTPUT);
@@ -19,20 +19,40 @@ void setup() {
 }
 
 void loop() {
-
-  while(rtc.now().hour() % 3 == 0)
+  if(rtc.now().hour() % 3 == 0)
   {
-   Serial.println("Pause =================>");
-   Serial.println(rtc.now().hour());
-   digitalWrite(air1, LOW);
+    int timeend = rtc.now().hour() + 2;
+    while (rtc.now().hour() < timeend )
+    {
+      digitalWrite(air1, HIGH);
+      digitalWrite(air2, HIGH);
+    }
+
+  }
+  else
+  {
+    digitalWrite(air1, LOW);
     digitalWrite(air2, LOW);
-    delay(timer*2);
+  }
+}
+
+
+//Alter Code
+/*
+int timeend = rtc.now().hour() + 2;
+  while (rtc.now().hour() % 3 == 0 && rtc.now().hour() <= timeend)
+  {
+    Serial.println("Pause =================>");
+    Serial.println(rtc.now().hour());
+    digitalWrite(air1, LOW);
+    digitalWrite(air2, LOW);
+
   }
 
   Serial.println("Läuft =================>");
-   Serial.println(rtc.now().hour());
-    digitalWrite(air1, HIGH);
-    digitalWrite(air2, HIGH);
-    //delay(timer);
+  Serial.println(rtc.now().hour());
+  digitalWrite(air1, HIGH);
+  digitalWrite(air2, HIGH);
+  //delay(timer);
 
-}
+*/
