@@ -1,0 +1,91 @@
+Function Studnicka_Methode(rng As Range, CellWork As Double) As Double
+
+Dim d
+Dim ran, j As Integer
+Dim c As Range
+Dim beginPosten As Integer
+Dim curcell As Range
+Dim spalte, spalte1, spalte2, spalte3, spalte4 As String
+Dim sum As Double
+Set curcell = rng
+'Wert für die Summe aller Spalten (Montag - Sonntag) '
+sum = 0
+'Setzten des Sheets für den Posten'
+Set posten = ThisWorkbook.Sheets("Posten")
+'Begin Zeile von Posten Liste'
+beginPosten = 4
+'Spalte für Posten Liste'
+spalte = "D"
+'Spalten neben D'
+spalte1 = Chr(Asc(spalte) + 1)
+spalte2 = Chr(Asc(spalte) + 2)
+spalte3 = Chr(Asc(spalte) + 3)
+spalte4 = Chr(Asc(spalte) + 4)
+'Zählervariable für den jeweiligen Wochentag'
+j = 1
+'Summe für Summierung aller Wochentage'
+
+ran = posten.Cells(4, "D").End(xlDown).Row
+'Debug.Print ran
+Dim ListPosten() As String
+ReDim ListPosten(ran) As String
+
+'Befüllen der Liste aus dem Sheet Posten'
+For I = 0 To ran
+    ListPosten(I) = posten.Cells(I + beginPosten, spalte).Value
+    'Debug.Print ListPosten(I)'
+Next I
+    
+
+'Durch jede Spalte gehen Montag - Sonntag'
+For Each col In curcell.Columns
+    'Durch das Array durchgehen'
+    For k = 0 To ran
+    'Montag - Donnerstag j<= 4'
+        If col.Value = ListPosten(k) Then
+            If (j <= 4) Then
+                sum = sum + posten.Cells(k + beginPosten, spalte1).Value
+            End If
+            If (j = 5) Then
+                sum = sum + posten.Cells(k + beginPosten, spalte2).Value
+            End If
+            If (j = 6) Then
+                sum = sum + posten.Cells(k + beginPosten, spalte3).Value
+            End If
+            If (j = 7) Then
+            sum = sum + posten.Cells(k + beginPosten, spalte4).Value
+            End If
+        End If
+    Next k
+    'Wegen Urlaub Stundensatz überprüfen und zur Summe addieren'
+    If col.Value = "Urlaub" Then
+        Select Case CellWork
+            Case 40: sum = sum + 8
+            Case 20: sum = sum + 4
+            Case 30: sum = sum + 6
+            Case 28.5: sum = sum + 5.7
+            Case 32: sum = sum + 6.4
+            Case 36: sum = sum + 7.2
+            Case Else
+            sum = sum + 0
+        End Select
+        End If
+    j = j + 1
+Next col
+
+'Summe zurückliefern'
+Studnicka_Methode = sum
+
+End Function
+
+Sub Test()
+'Tesetn der Funktion'
+Dim SheetsTest As Worksheet
+Dim arg As Range
+Dim erg As Double
+Set SheetsTest = Worksheets("Sept")
+Set arg = SheetsTest.Range("AU22:BA22")
+summe = Studnicka_Methode(arg, 28.5)
+Debug.Print "Summe " & summe
+End Sub
+
