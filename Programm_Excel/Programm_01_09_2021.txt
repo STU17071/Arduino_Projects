@@ -1,21 +1,34 @@
 Function Studnicka_Methode(rng As Range, CellWork As Double) As Double
 
-Dim d
-Dim ran, j As Integer
-Dim c As Range
-Dim beginPosten As Integer
-Dim curcell As Range
-Dim spalte, spalte1, spalte2, spalte3, spalte4 As String
-Dim sum As Double
-Set curcell = rng
-'Wert für die Summe aller Spalten (Montag - Sonntag) '
-sum = 0
-'Setzten des Sheets für den Posten'
-Set posten = ThisWorkbook.Sheets("Posten")
-'Begin Zeile von Posten Liste'
-beginPosten = 4
-'Spalte für Posten Liste'
-spalte = "D"
+    Dim d
+    Dim ran, j As Integer
+    Dim c As Range
+    Dim beginPosten As Integer
+    Dim curcell As Range
+    Dim spalte, spalte1, spalte2, spalte3, spalte4 As String
+    Dim sum As Double
+    Dim PostenListe As String
+    Set curcell = rng
+    'Wert für die Summe aller Spalten (Montag - Sonntag) '
+    sum = 0
+'**********************************************************************************************************************************************************************************************'
+
+    'In diesem Bereich können Änderungen vorgenommen werden'
+    
+    'Setzen des Arbeitsblattes in denen sich die Posten befinden -> Posten'
+    PostenListe = "Posten"
+    
+    'Setzten des Sheets für den Posten'
+    Set posten = ThisWorkbook.Sheets(PostenListe)
+    
+    'Begin Zeile von Posten Liste. Zeile angeben in denen die Werte Beginnen'
+    beginPosten = 4
+    
+    'Spalte für Posten Liste beginnt. Spalte Angeben in denen die Werte Stehen'
+    spalte = "D"
+    
+'**********************************************************************************************************************************************************************************************'
+
 'Spalten neben D'
 spalte1 = Chr(Asc(spalte) + 1)
 spalte2 = Chr(Asc(spalte) + 2)
@@ -25,7 +38,7 @@ spalte4 = Chr(Asc(spalte) + 4)
 j = 1
 'Summe für Summierung aller Wochentage'
 
-ran = posten.Cells(4, "D").End(xlDown).Row
+ran = posten.Cells(4, spalte).End(xlDown).Row
 'Debug.Print ran
 Dim ListPosten() As String
 ReDim ListPosten(ran) As String
@@ -84,8 +97,8 @@ Dim SheetsTest As Worksheet
 Dim arg As Range
 Dim erg As Double
 Set SheetsTest = Worksheets("Sept")
-Set arg = SheetsTest.Range("AU22:BA22")
-summe = Studnicka_Methode(arg, 28.5)
+Set arg = SheetsTest.Range("AL23:AR23")
+summe = Studnicka_Methode(arg, 40)
 Debug.Print "Summe " & summe
 End Sub
 
