@@ -19,17 +19,17 @@ Function Studnicka_Methode(rng As Range, CellWork As Double) As Double
     PostenListe = "Posten"
     
     'Begin Zeile von Posten Liste. Zeile angeben in denen die Werte Beginnen'
-    beginPosten = 4
+    'beginPosten = 4'
     
     'Spalte für Posten Liste beginnt. Spalte Angeben in denen die Werte Stehen'
-    spalte = "D"
+    'spalte = "D"'
     
 '**********************************************************************************************************************************************************************************************'
 
 'Setzten des Sheets für den Posten'
     Set posten = ThisWorkbook.Sheets(PostenListe)
-
-
+    beginPosten = ThisWorkbook.Sheets(PostenListe).Range("B5").Value
+    spalte = ThisWorkbook.Sheets(PostenListe).Range("B4").Value
 'Spalten neben D'
 spalte1 = Chr(Asc(spalte) + 1)
 spalte2 = Chr(Asc(spalte) + 2)
@@ -58,29 +58,29 @@ For Each col In curcell.Columns
     'Montag - Donnerstag j<= 4'
         If col.Value = ListPosten(k) Then
             If (j <= 4) Then
-		if col.Value = "Krankenstand"
-			Select Case CellWork
-            			Case 40: sum = sum + 8
-            			Case 20: sum = sum + 4
-           			Case 30: sum = sum + 6
-           			Case 28.5: sum = sum + 5.7
-           			Case 32: sum = sum + 6.4
-           			Case 36: sum = sum + 7.2
-			End Select
-		end if 
+        If col.Value = "Krankenstand" Then
+            Select Case CellWork
+                        Case 40: sum = sum + 8
+                        Case 20: sum = sum + 4
+                    Case 30: sum = sum + 6
+                    Case 28.5: sum = sum + 5.7
+                    Case 32: sum = sum + 6.4
+                    Case 36: sum = sum + 7.2
+            End Select
+        End If
                 sum = sum + posten.Cells(k + beginPosten, spalte1).Value
             End If
             If (j = 5) Then
-		if col.Value = "Krankenstand"
-			Select Case CellWork
-            			Case 40: sum = sum + 8
-            			Case 20: sum = sum + 4
-           			Case 30: sum = sum + 6
-           			Case 28.5: sum = sum + 5.7
-           			Case 32: sum = sum + 6.4
-           			Case 36: sum = sum + 7.2
-			End Select
-		end if 
+        If col.Value = "Krankenstand" Then
+            Select Case CellWork
+                        Case 40: sum = sum + 8
+                        Case 20: sum = sum + 4
+                    Case 30: sum = sum + 6
+                    Case 28.5: sum = sum + 5.7
+                    Case 32: sum = sum + 6.4
+                    Case 36: sum = sum + 7.2
+            End Select
+        End If
                 sum = sum + posten.Cells(k + beginPosten, spalte2).Value
             End If
             If (j = 6) Then
@@ -111,3 +111,7 @@ Next col
 Studnicka_Methode = sum
 
 End Function
+
+
+
+
